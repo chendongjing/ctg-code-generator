@@ -1,0 +1,4 @@
+
+    public ${pojo.name}() {
+    
+    }

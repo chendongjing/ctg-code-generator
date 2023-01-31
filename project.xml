@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="GBK"?>
+<project>
+	<import resource="dbConfig.xml" />
+	<configuration>
+		<prop key="defaultEncoding">UTF-8</prop>
+		<prop key="outputEncoding">UTF-8</prop>
+		<!-- 可通过设置不同的模板路径，生成对应的不同模板代码-->
+		<prop key="templateDir">{root}/template</prop>
+		
+	</configuration>
+
+	<templates>
+		<template name="application">ctg/application.ftl</template>
+		<template name="baseApplication">ctg/base-application.ftl</template>
+		<template name="bootstrap">ctg/bootstrap.ftl</template>
+		<template name="app">ctg/app.ftl</template>
+		<template name="entity">ctg/entity.ftl</template>
+		<template name="dto">ctg/dto.ftl</template>
+		<template name="client">ctg/client.ftl</template>
+		<template name="constant">ctg/constant.ftl</template>
+		<template name="controller">ctg/controller.ftl</template>
+		<template name="service">ctg/service.ftl</template>
+		<template name="dao">ctg/dao.ftl</template>
+		<template name="parentPom">ctg/parent-pom.ftl</template>
+		<template name="modulePom">ctg/module-pom.ftl</template>
+		<template name="target">ctg/target.ftl</template>
+	</templates>
+	<rules>
+		<rule name="tableName" type="JavaScript">
+			<![CDATA[
+            function convertTableName(tableName) {
+                var a = tableName.split('_');
+                if (a.length > 1) {
+                    //a.shift();
+                }
+                var tempStr;
+                for (var i = 0, len = a.length; i < len; i++) {
+                    tempStr = a[i];
+                    a[i] = tempStr.charAt(0).toUpperCase() + tempStr.substring(1).toLowerCase();
+                }
+                return a.join('');
+            }
+            ]]>
+		</rule>
+		<rule name="columnName" type="JavaScript">
+			<![CDATA[
+            function convertColumnName(columnName) {
+                var a = columnName.split('_');
+                if (a.length > 1) {
+                    //a.shift();
+                }
+                var tempStr;
+                for (var i = 0, len = a.length; i < len; i++) {
+                    tempStr = a[i];
+                    if (i == 0) {
+                        a[i] = tempStr.toLowerCase();
+                    } else {
+                        a[i] = tempStr.charAt(0).toUpperCase() + tempStr.substring(1).toLowerCase();
+                    }
+                }
+                return a.join('');
+            }
+            ]]>
+		</rule>
+	</rules>
+	<inputs>
+		<input>
+			<source type="db">
+				<!-- 支持mysql、oracle、postgresql -->
+				<db name="postgressql">
+					<!-- oracle为用户名(大写); mysql，postgresql为库名 -->
+					<prop key="schema">public</prop>
+					<!-- oracle要大写; 多个表中间用','隔开 -->
+					<prop key="table">t_token_conf</prop>
+				</db>
+			</source>
+			<custom>
+				<!--版本-->
+				<prop key="version">1.0</prop>
+				<!--作者-->
+				<prop key="author">dongjing.chen</prop>
+				<!--系统名称-->
+				<prop key="system">ctg-member-plat</prop>
+				<!--服务名称-->
+				<prop key="service">base-admin</prop>
+				<!--启动类名-->
+				<prop key="application">Token</prop>
+				<!--根包名称-->
+				<prop key="rootPackage">cn.ctg.admin</prop>
+				<!--client包名称-->
+				<prop key="clientPackage">{rootPackage}.client</prop>
+				<!--constant包名称-->
+				<prop key="constantPackage">{rootPackage}.constant</prop>
+				<!--controller包名称-->
+				<prop key="controllerPackage">{rootPackage}.controller</prop>
+				<!--dao包名称-->
+				<prop key="daoPackage">{rootPackage}.dao</prop>
+				<!--dto包名称-->
+				<prop key="dtoPackage">{rootPackage}.dto</prop>
+				<!--entity包名称-->
+				<prop key="entityPackage">{rootPackage}.entity</prop>
+				<!--dto包名称-->
+				<prop key="dtoPackage">{rootPackage}.dto</prop>
+				<!--service包名称-->
+				<prop key="servicePackage">{rootPackage}.service</prop>
+				<!--application包名称-->
+				<prop key="applicationPackage">{rootPackage}/{application}</prop>
+			</custom>
+
+			<outputs outputDir="{root}/out">
+				<!--生成服务包-->
+				<output name="base" subOutputDir="{service}/{service}/src/main/java/" template="entity" package-name="{entityPackage}">
+					<rule>
+						<prop key="tableName">tableName</prop>
+						<prop key="columnName">columnName</prop>
+					</rule>
+					<filePattern>{package-name}/{class-name}.java</filePattern>
+				</output>
+				
+				<output extends="base" subOutputDir="{service}/{service}/src/main/java/" template="dto" package-name="{dtoPackage}">
+					<filePattern>{package-name}/{class-name}DTO.java</filePattern>
+				</output>
+				<!--
+				<output extends="base" subOutputDir="{service}/{service}/src/main/java/" template="client" package-name="{clientPackage}">
+					<filePattern>{package-name}/{class-name}Client.java</filePattern>
+				</output>
+		        -->
+				<output extends="base" subOutputDir="{service}/{service}/src/main/java/" template="constant" package-name="{constantPackage}">
+					<filePattern>{package-name}/{class-name}Constant.java</filePattern>
+				</output>
+				
+				<output extends="base" subOutputDir="{service}/{service}/src/main/java/" template="controller" package-name="{controllerPackage}">
+					<filePattern>{package-name}/{class-name}Controller.java</filePattern>
+				</output>
+
+				<output extends="base" subOutputDir="{service}/{service}/src/main/java/" template="service" package-name="{servicePackage}">
+					<filePattern>{package-name}/{class-name}Service.java</filePattern>
+				</output>
+				
+				<output extends="base" subOutputDir="{service}/{service}/src/main/java/" template="dao" package-name="{daoPackage}">
+					<filePattern>{package-name}/{class-name}Mapper.java</filePattern>
+				</output>
+				
+				<output extends="base" subOutputDir="{service}/{service}/src/main/java/" template="baseApplication" package-name="{applicationPackage}">
+					<filePattern>{package-name}Application.java</filePattern>
+				</output>
+				
+				<output extends="base" subOutputDir="{service}/{service}/" template="modulePom" package-name="">
+					<filePattern>pom.xml</filePattern>
+				</output>
+				
+				<output extends="base" subOutputDir="{service}/{service}/src/main/resources/" template="bootstrap" package-name="">
+					<filePattern>bootstrap.yml</filePattern>
+				</output>
+				 
+				<output extends="base" subOutputDir="{service}/{service}/src/main/resources/" template="application" package-name="">
+					<filePattern>application.yml</filePattern>
+				</output>
+				
+				<output extends="base" subOutputDir="{service}/{service}/src/main/resources/META-INF" template="app" package-name="">
+					<filePattern>app.properties</filePattern>
+				</output>
+				
+				<output extends="base" subOutputDir="{service}/{service}/target" template="target" package-name="">
+					<filePattern>target-test.txt</filePattern> 
+				</output>
+		 
+			</outputs>
+		</input>
+	</inputs>
+</project>

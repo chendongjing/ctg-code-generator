@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <databases>
+	    <database name="mysql">
+	        <dataSource>
+		        <prop key="driverClassName">com.mysql.jdbc.Driver</prop>
+		        <prop key="url">jdbc:mysql://ip:port/test?useUnicode=true&amp;characterEncoding=utf8&amp;characterSetResults=utf8</prop>
+		        <prop key="username">root</prop>
+		        <prop key="password">123456</prop>
+		    </dataSource>
+			<typeMap>
+	            <prop key="bit">boolean</prop>
+	            <prop key="bool">boolean</prop>
+	            <prop key="boolean">boolean</prop>
+	            <prop key="tinyint">int</prop>
+	            <prop key="smallint">int</prop>
+	            <prop key="mediumint">int</prop>
+	            <prop key="int">Long</prop>
+	            <prop key="Integer">Long</prop>
+	            <prop key="bigint">Long</prop>
+	            <prop key="float">Double</prop>
+	            <prop key="double">Double</prop>
+	            <prop key="decimal">Double</prop>
+	            <prop key="date">java.sql.Date</prop>
+	            <prop key="datetime">java.sql.Date</prop>
+	            <prop key="timestamp">java.sql.Date</prop>
+	            <prop key="time">java.sql.Time</prop>
+	            <prop key="year">int</prop>
+	            <prop key="char">String</prop>
+	            <prop key="varchar">String</prop>
+	            <prop key="text">String</prop>
+	            <prop key="clob">String</prop>
+	            <prop key="blob">byte[]</prop>
+            </typeMap>
+            <commentSql>
+                <prop key="table">
+                    SELECT TABLE_SCHEMA, TABLE_NAME, TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES 
+                    WHERE TABLE_SCHEMA = {schema} AND TABLE_NAME = {table}
+                </prop>
+                <prop key="column">
+                    SELECT TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, COLUMN_COMMENT FROM INFORMATION_SCHEMA.COLUMNS 
+                    WHERE TABLE_SCHEMA = {schema} AND TABLE_NAME = {table} AND COLUMN_NAME = {column}
+                </prop>
+            </commentSql>
+	    </database>
+	    
+	    <database name="oracle">
+	       <dataSource>
+		        <prop key="driverClassName">oracle.jdbc.driver.OracleDriver</prop>
+		        <prop key="url">jdbc:oracle:thin:@127.0.0.1:1521:test</prop>
+		        <prop key="username">oracle</prop>
+		        <prop key="password">132456</prop>
+		    </dataSource>
+			<typeMap>
+	            <prop key="number">Long</prop>
+	            <prop key="number" precision="22">Long</prop>
+	            <prop key="number" precision="17" scale="2">Float</prop>
+	            <prop key="number" precision="17" scale="5">Double</prop>
+	            <prop key="date">java.sql.Date</prop>
+	            <prop key="timestamp">java.sql.Timestamp</prop>
+	            <prop key="char">String</prop>
+	            <prop key="varchar2">String</prop>
+	            <prop key="clob">String</prop>
+	            <prop key="blob">byte[]</prop>
+            </typeMap>
+            <commentSql>
+                <prop key="table">
+                    SELECT OWNER TABLE_SCHEMA, TABLE_NAME, TABLE_COMMENT FROM ALL_TAB_COMMENTS
+                    WHERE OWNER = {schema} AND TABLE_NAME = {table}
+                </prop>
+                <prop key="column">
+                    SELECT OWNER TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, COLUMN_COMMENT FROM ALL_COL_COMMENTS
+                    WHERE OWNER = {schema} AND TABLE_NAME = {table} AND COLUMN_NAME = {column}
+                </prop>
+            </commentSql>
+	    </database>	    
+	    <database name="postgressql">
+	        <dataSource>
+		        <prop key="driverClassName">org.postgresql.Driver</prop>
+		        <prop key="url">jdbc:postgresql://127.0.0.1:5432/member-plat?currentSchema=public</prop>
+		        <prop key="username">ctgmbr</prop>
+		        <prop key="password">Ctg_mbr@2022</prop>
+		    </dataSource>
+			<typeMap>
+	            <prop key="bit">boolean</prop>
+	            <prop key="bool">boolean</prop>
+	            <prop key="boolean">boolean</prop>
+	            <prop key="tinyint">int</prop>
+	            <prop key="smallint">int</prop>
+	            <prop key="mediumint">int</prop>
+	            <prop key="int">Long</prop>
+	            <prop key="int2">Integer</prop>
+	            <prop key="int4">Integer</prop>
+	            <prop key="int8">Integer</prop>
+	            <prop key="Integer">Long</prop>
+	            <prop key="bigint">Long</prop>
+	            <prop key="float">Double</prop>
+	            <prop key="double">Double</prop>
+	            <prop key="decimal">Double</prop>
+	            <prop key="date">java.sql.Date</prop>
+	            <prop key="datetime">java.sql.Date</prop>
+	            <prop key="timestamp">java.sql.Date</prop>
+	            <prop key="time">java.sql.Time</prop>
+	            <prop key="year">int</prop>
+	            <prop key="char">String</prop>
+	            <prop key="varchar">String</prop>
+	            <prop key="text">String</prop>
+	            <prop key="clob">String</prop>
+	            <prop key="blob">byte[]</prop>
+            </typeMap>
+            <commentSql>
+                <prop key="table">
+                    SELECT TABLE_SCHEMA, TABLE_NAME, TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES
+                    WHERE TABLE_SCHEMA = {schema} AND TABLE_NAME = {table}
+                </prop>
+                <prop key="column">
+                    SELECT TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, COLUMN_COMMENT FROM INFORMATION_SCHEMA.COLUMNS
+                    WHERE TABLE_SCHEMA = {schema} AND TABLE_NAME = {table} AND COLUMN_NAME = {column}
+                </prop>
+            </commentSql>
+	    </database>
+    </databases>
+</project>
